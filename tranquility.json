@@ -1,0 +1,436 @@
+{
+    "frames": {
+        "tranquility0.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility1.png": {
+            "frame": {
+                "x": 87,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility2.png": {
+            "frame": {
+                "x": 174,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility3.png": {
+            "frame": {
+                "x": 261,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility4.png": {
+            "frame": {
+                "x": 348,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility5.png": {
+            "frame": {
+                "x": 435,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility6.png": {
+            "frame": {
+                "x": 522,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility7.png": {
+            "frame": {
+                "x": 609,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility8.png": {
+            "frame": {
+                "x": 696,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility9.png": {
+            "frame": {
+                "x": 783,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility10.png": {
+            "frame": {
+                "x": 870,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility11.png": {
+            "frame": {
+                "x": 957,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility12.png": {
+            "frame": {
+                "x": 1044,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility13.png": {
+            "frame": {
+                "x": 1131,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility14.png": {
+            "frame": {
+                "x": 1218,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility15.png": {
+            "frame": {
+                "x": 1305,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility16.png": {
+            "frame": {
+                "x": 1392,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility17.png": {
+            "frame": {
+                "x": 1479,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility18.png": {
+            "frame": {
+                "x": 1566,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility19.png": {
+            "frame": {
+                "x": 1653,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        },
+        "tranquility20.png": {
+            "frame": {
+                "x": 1740,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "rotated": false,
+            "trimmed": true,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 87,
+                "h": 149
+            },
+            "sourceSize": {
+                "w": 87,
+                "h": 149
+            }
+        }
+    },
+    "meta": {
+        "app": "my",
+        "version": "1.0",
+        "image": "tranquility2.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 1827,
+            "h": 149
+        },
+        "scale": "1",
+        "smartupdate": "$TexturePacker:SmartUpdate:2f213a6b451f9f5719773418dfe80ae8$"
+    }
+}
