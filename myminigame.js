@@ -13,6 +13,30 @@ stage.addChild(ground);
 ///////////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
     $('.game').append(renderer.view);
+
+    $(document).keydown(function (event) {
+        if ((event.which == 39) || (event.which == 68)) {
+            player.right_run = 1;
+        }
+    });
+    $(document).keydown(function (event) {
+        if ((event.which == 37) || (event.which == 65)) {
+            player.left_run = 1;
+        }
+    });
+
+    $(document).keyup(function (event) {
+        if ((event.which == 39) || (event.which == 68)) {
+            player.right_run = 0;
+        }
+    });
+
+    $(document).keyup(function (event) {
+        if ((event.which == 37) || (event.which == 65)) {
+            player.left_run = 0;
+        }
+    });
+
 });
 
 
@@ -21,14 +45,36 @@ $(document).ready(function () {
 function Ninja() {
     this.textures = {
         'tranquility': [],
-        'running': []
+        'running_right': [],
+        'running_left': []
     };
     this.movie = null;
+    this.action = function () {
+        //Передвидение вправо влево
+        if (this.right_run) {
+            this.movie.position.x += 3.5;
+            player.movie.scale.x = 1;
+            this.movie.animationSpeed = 0.3;
+            this.movie.textures = this.textures.running_right;
+            this.movie.play();
+        } else {
+            this.movie.textures = this.textures.tranquility;
+            this.movie.play();
+        }
+        if (this.left_run) {
+            this.movie.position.x -= 3.5;
+            player.movie.scale.x = -1;
+            this.movie.animationSpeed = 0.3;
+            this.movie.textures = this.textures.running_right;
+            this.movie.play();
+        }
 
+
+    }
 }
 
 var player = new Ninja();
-var player2 = new Ninja();
+
 
 
 function onAssetsLoaded() {
@@ -39,7 +85,7 @@ function onAssetsLoaded() {
 
     }
     for (var i = 5; i < 16; i++) {
-        player2.textures.running.push(PIXI.Texture.fromFrame("running" + i + ".png"));
+        player.textures.running_right.push(PIXI.Texture.fromFrame("running" + i + ".png"));
     }
     // ninja.push(PIXI.Texture.fromFrame("running0.png"));
     player.movie = new PIXI.MovieClip(player.textures.tranquility);
@@ -50,33 +96,45 @@ function onAssetsLoaded() {
         x: 400,
         y: 400};
     player.movie.animationSpeed = 0.5;
+    // console.log(player.movie);
+
     player.movie.play();
 
 
 
 
-    player2.movie = new PIXI.MovieClip(player2.textures.running);
-    player2.movie.anchor = {
-        x: 0.5,
-        y: 0.5};
-    player2.movie.position = {
-        x: 300,
-        y: 400};
-    player2.movie.animationSpeed = 0.3;
-    player2.movie.play();
+//    player2.movie = new PIXI.MovieClip(player2.textures.running);
+//    player2.movie.anchor = {
+//        x: 0.5,
+//        y: 0.5};
+//    player2.movie.position = {
+//        x: 300,
+//        y: 400};
+//    player2.movie.animationSpeed = 0.3;
+//    player2.movie.play();
 
 
     stage.addChild(player.movie);
-    stage.addChild(player2.movie);
+    //   stage.addChild(player2.movie);
     // start animating
     requestAnimFrame(animate);
 }
 
 function animate() {
     requestAnimFrame(animate);
-    player2.movie.position.x += 3.5;
-    if (player2.movie.position.x > 792)
-        player2.movie.position.x = 0;
+//    player2.movie.position.x += 3.5;
+//    if (player2.movie.position.x > 792)
+//        player2.movie.position.x = 0;
+
+    player.action();
+
+
+
+    if (player.movie.position.x > 792)
+        player.movie.position.x = 0;
+    if (player.movie.position.x < 0)
+        player.movie.position.x = 792;
+
     // render the stage
     renderer.render(stage);
 }
