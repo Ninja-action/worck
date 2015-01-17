@@ -2,7 +2,7 @@ var interactive = true;
 var stage = new PIXI.Stage(0x66FF99, interactive);
 var renderer = PIXI.autoDetectRenderer(792, 481);
 var image_ground = new PIXI.Texture.fromImage('ground.jpg');
-var ground = new PIXI.TilingSprite(image_ground, 800, 800);
+var ground = new PIXI.TilingSprite(image_ground, 792, 481);
 var assetsToLoader = ["tranquility.json", "running.json"];
 loader = new PIXI.AssetLoader(assetsToLoader);
 loader.onComplete = onAssetsLoaded
@@ -24,6 +24,7 @@ function Ninja() {
         'running': []
     };
     this.movie = null;
+
 }
 
 var player = new Ninja();
@@ -73,7 +74,9 @@ function onAssetsLoaded() {
 
 function animate() {
     requestAnimFrame(animate);
-
+    player2.movie.position.x += 3.5;
+    if (player2.movie.position.x > 792)
+        player2.movie.position.x = 0;
     // render the stage
     renderer.render(stage);
 }
