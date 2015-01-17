@@ -21,12 +21,12 @@ var mySound = new buzz.sound("KharmaGuess - Ninja Action Ringtone", {
 
 $(document).ready(function () {
     mySound.play()
-        .fadeIn()
-        .loop()
-        .bind("timeupdate", function () {
-            var timer = buzz.toTimer(this.getTime());
-            document.getElementById("timer").innerHTML = timer;
-        });
+            .fadeIn()
+            .loop()
+            .bind("timeupdate", function () {
+                var timer = buzz.toTimer(this.getTime());
+                document.getElementById("timer").innerHTML = timer;
+            });
     $('.game').append(renderer.view);
 
     $(document).keydown(function (event) {
@@ -76,24 +76,28 @@ function Ninja() {
     this.action = function () {
         //Передвидение вправо влево
         if (this.right_run) {
+            this.animation = 1;
             this.movie.position.x += 3.5;
             player.movie.scale.x = 1;
             this.movie.animationSpeed = 0.2;
             this.movie.textures = this.textures.running_right;
-            this.movie.play();
-            this.animation = 1;
+
+            //if (!this.movie.playing)
+            // this.movie.play();
+
         } else {
             if (this.animation == 1)
                 this.movie.stop();
         }
 
         if (this.left_run) {
+            this.animation = 2;
             this.movie.position.x -= 3.5;
             player.movie.scale.x = -1;
             this.movie.animationSpeed = 0.2;
             this.movie.textures = this.textures.running_right;
-            this.movie.play();
-            this.animation = 2;
+            //this.movie.play();
+
         } else {
             if (this.animation == 2)
                 this.movie.stop();
@@ -184,7 +188,7 @@ function animate() {
 //        player2.movie.position.x = 0;
 
     player.action();
-
+    console.log(player.animation);
 
 
     if (player.movie.position.x > 792)
