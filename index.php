@@ -21,6 +21,6 @@
     </head>
     <body>
     <div  class="game"></div>
-    <a href="http://www.youtube.com/id22066662">Ссылка на канал автора=)</a>
+    <a target="_blank" href="http://www.youtube.com/id22066662">Ссылка на канал автора=)</a>
     </body>
 </html>
