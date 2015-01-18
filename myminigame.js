@@ -3,7 +3,7 @@ var stage = new PIXI.Stage(0x66FF99, interactive);
 var renderer = PIXI.autoDetectRenderer(792, 481);
 var image_ground = new PIXI.Texture.fromImage('ground.jpg');
 var ground = new PIXI.TilingSprite(image_ground, 792, 481);
-var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json"];
+var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json", "somersault.json"];
 loader = new PIXI.AssetLoader(assetsToLoader);
 loader.onComplete = onAssetsLoaded
 loader.load();
@@ -75,8 +75,18 @@ $(document).ready(function () {
         }
     });
 
+
+
 });
 
+$(document).ready(function () {
+    $(document).keyboard(
+            'c+space',
+            function (e, bind) {
+                player.somersault = 1;
+            }
+    );
+});
 
 
 
@@ -87,7 +97,8 @@ function Ninja() {
         'running_left': [],
         'vertushka': [],
         'sitting_down': [],
-        'sitting_up': []
+        'sitting_up': [],
+        'somersault': []
     };
     this.movie = null;
     this.action = function () {
@@ -166,6 +177,21 @@ function Ninja() {
 
 
 
+        //кувырок
+        if (this.somersault) {
+            this.count += 1;
+            if (this.count < 2) {
+                this.movie.textures = this.textures.somersault;
+                this.movie.animationSpeed = 0.3;
+                this.movie.gotoAndPlay(0);
+                this.movie.loop = false;
+                // this.somersault = 0;
+                this.animation = 5;
+            }
+//            if (this.old_position.x + 10 > this.movie.position.x)
+//                this.movie.position.x += 1;
+        }
+
 
         //Спокойная стойка
         if (!this.movie.playing)
@@ -176,7 +202,8 @@ function Ninja() {
                 this.movie.play();
                 this.animation = 0;
                 this.timer = 0;
-
+                this.somersault = 0;
+                this.count = 0;
             }
 
 
@@ -212,7 +239,10 @@ function onAssetsLoaded() {
     for (var i = 3; i < 7; i++) {
         player.textures.sitting_up.push(PIXI.Texture.fromFrame("sitting" + i + ".png"));
     }
-
+    //Кувырок
+    for (var i = 0; i < 14; i++) {
+        player.textures.somersault.push(PIXI.Texture.fromFrame("somersault" + i + ".png"));
+    }
     // ninja.push(PIXI.Texture.fromFrame("running0.png"));
     player.movie = new PIXI.MovieClip(player.textures.tranquility);
     player.movie.anchor = {
