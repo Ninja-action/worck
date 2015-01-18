@@ -3,7 +3,7 @@ var stage = new PIXI.Stage(0x66FF99, interactive);
 var renderer = PIXI.autoDetectRenderer(792, 481);
 var image_ground = new PIXI.Texture.fromImage('ground.jpg');
 var ground = new PIXI.TilingSprite(image_ground, 792, 481);
-var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json"];
+var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json"];
 loader = new PIXI.AssetLoader(assetsToLoader);
 loader.onComplete = onAssetsLoaded
 loader.load();
@@ -60,6 +60,21 @@ $(document).ready(function () {
         }
     });
 
+    //Сел
+    $(document).keydown(function (event) {
+        if (event.which == 67) {
+            player.sitting_down = 1;
+            //  player.timer = 0;
+        }
+    });
+    //Встал
+    $(document).keyup(function (event) {
+        if (event.which == 67) {
+            player.sitting_up = 1;
+            player.timer = 0;
+        }
+    });
+
 });
 
 
@@ -70,7 +85,9 @@ function Ninja() {
         'tranquility': [],
         'running_right': [],
         'running_left': [],
-        'vertushka': []
+        'vertushka': [],
+        'sitting_down': [],
+        'sitting_up': []
     };
     this.movie = null;
     this.action = function () {
@@ -81,10 +98,6 @@ function Ninja() {
             player.movie.scale.x = 1;
             this.movie.animationSpeed = 0.2;
             this.movie.textures = this.textures.running_right;
-
-            //if (!this.movie.playing)
-            // this.movie.play();
-
         } else {
             if (this.animation == 1)
                 this.movie.stop();
@@ -96,13 +109,12 @@ function Ninja() {
             player.movie.scale.x = -1;
             this.movie.animationSpeed = 0.2;
             this.movie.textures = this.textures.running_right;
-            //this.movie.play();
 
         } else {
             if (this.animation == 2)
                 this.movie.stop();
         }
-
+        //Удар с разворота
         if (this.vertushka) {
             this.movie.textures = this.textures.vertushka;
             this.movie.animationSpeed = 0.3;
@@ -111,19 +123,63 @@ function Ninja() {
             this.vertushka = 0;
             this.animation = 3;
         }
-        //console.log(this.movie.playing);
+        //Сел
+        if (this.sitting_down)
+        {
+            if (this.timer == 0) {
+                this.animation = 4;
+                this.movie.textures = this.textures.sitting_down;
+                this.movie.animationSpeed = 0.3;
+                this.movie.gotoAndPlay(0);
+                this.movie.loop = false;
 
-        if (!this.movie.playing) {
-            this.movie.loop = true;
-            this.movie.textures = this.textures.tranquility;
-            this.movie.play();
-            this.animation = 0;
+                this.old_position = this.movie.position;
+                this.sel = 1;
+            }
+            this.timer += 1;
         }
 
-        //else {
-//            this.movie.textures = this.textures.tranquility;
-//            this.movie.play();
-//        }
+
+        //Встал
+        if (this.sitting_up > 0)
+            if (this.sitting_down > 0)
+            {
+                this.animation = 5;
+                this.movie.textures = this.textures.sitting_up;
+                this.movie.animationSpeed = 0.3;
+                this.movie.gotoAndPlay(0);
+                this.movie.loop = false;
+                this.sitting_down = 0;
+                this.sitting_up = 0;
+                this.sel = 2;
+            }
+
+        if (this.sel == 1) {
+            this.movie.position.y = this.old_position.y + 10;
+            this.sel = 0;
+        }
+        if (this.sel == 2)
+        {
+            this.movie.position.y = this.old_position.y - 10;
+            this.sel = 0;
+        }
+
+
+
+
+        //Спокойная стойка
+        if (!this.movie.playing)
+            if (!this.sitting_down)
+            {
+                this.movie.loop = true;
+                this.movie.textures = this.textures.tranquility;
+                this.movie.play();
+                this.animation = 0;
+                this.timer = 0;
+
+            }
+
+
 
 
     }
@@ -148,6 +204,15 @@ function onAssetsLoaded() {
     for (var i = 0; i < 15; i++) {
         player.textures.vertushka.push(PIXI.Texture.fromFrame("vertushka" + i + ".png"));
     }
+    //Присел
+    for (var i = 0; i < 4; i++) {
+        player.textures.sitting_down.push(PIXI.Texture.fromFrame("sitting" + i + ".png"));
+    }
+    //Встал
+    for (var i = 3; i < 7; i++) {
+        player.textures.sitting_up.push(PIXI.Texture.fromFrame("sitting" + i + ".png"));
+    }
+
     // ninja.push(PIXI.Texture.fromFrame("running0.png"));
     player.movie = new PIXI.MovieClip(player.textures.tranquility);
     player.movie.anchor = {
@@ -160,7 +225,7 @@ function onAssetsLoaded() {
     // console.log(player.movie);
 
     player.movie.play();
-
+    player.timer = 0;
 
 
 
@@ -188,7 +253,7 @@ function animate() {
 //        player2.movie.position.x = 0;
 
     player.action();
-    console.log(player.animation);
+
 
 
     if (player.movie.position.x > 792)
