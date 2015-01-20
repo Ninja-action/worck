@@ -20,13 +20,13 @@ var mySound = new buzz.sound("KharmaGuess - Ninja Action Ringtone", {
 
 
 $(document).ready(function () {
-    mySound.play()
-            .fadeIn()
-            .loop()
-            .bind("timeupdate", function () {
-                var timer = buzz.toTimer(this.getTime());
-                document.getElementById("timer").innerHTML = timer;
-            });
+    mySound.play().loop();
+    $('#stop').click(function () {
+        mySound.stop();
+    });
+    $('#play').click(function () {
+        mySound.play();
+    });
     $('.game').append(renderer.view);
 
     $(document).keydown(function (event) {
@@ -65,28 +65,39 @@ $(document).ready(function () {
         if (event.which == 67) {
             player.sitting_down = 1;
             //  player.timer = 0;
+            console.log('сел');
         }
     });
     //Встал
     $(document).keyup(function (event) {
         if (event.which == 67) {
-            player.sitting_up = 1;
-            player.timer = 0;
+            player.sitting_down = 0;
+            console.log('встал');
         }
     });
 
+    $(document).keyup(function (event) {
+        if (event.which == 88) {
+            player.somersault = 1;
+        }
+    });
 
 
 });
 
 $(document).ready(function () {
     $(document).keyboard(
-            'c+space',
+            'x',
             function (e, bind) {
-                player.somersault = 1;
+                // player.somersault = 1;
             }
     );
 });
+
+
+
+
+
 
 
 
@@ -100,110 +111,150 @@ function Ninja() {
         'sitting_up': [],
         'somersault': []
     };
+    this.animations = {
+        'tranquility': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.play();
+                movie.loop = true;
+                return 0;
+            }
+        },
+        'running': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.2;
+                movie.play();
+                movie.loop = true;
+                return 0;
+            }
+        },
+        'vertushka': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+                return 0;
+            }
+        },
+        'sitting_down': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.3;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+                movie.position.y += 10;
+                return 1;
+            }
+        },
+        'sitting_up': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.3;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+                movie.position.y -= 10;
+                return 0;
+            }
+        },
+        'somersault': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.4;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+                // movie.position.x += 100;
+                movie.anchor = {
+                    x: 0.1,
+                    y: 0.5};
+                return 0;
+            }
+        }
+
+    };
+    this.lock = 0;
+    this.playanimation = function (animation) {
+        if (this.lock == 0)
+            this.lock = this.animations[animation].play(this.movie);
+        console.log(this.lock);
+    }
     this.movie = null;
     this.action = function () {
-        //Передвидение вправо влево
+//        //Передвидение вправо влево
         if (this.right_run) {
-            this.animation = 1;
+            this.playanimation('running');
             this.movie.position.x += 3.5;
-            player.movie.scale.x = 1;
-            this.movie.animationSpeed = 0.2;
-            this.movie.textures = this.textures.running_right;
+            this.movie.scale.x = 1;
+            this.animation = 'run_right';
         } else {
-            if (this.animation == 1)
+            if (this.animation == 'run_right')
                 this.movie.stop();
         }
-
+//
         if (this.left_run) {
-            this.animation = 2;
+            this.playanimation('running');
             this.movie.position.x -= 3.5;
-            player.movie.scale.x = -1;
-            this.movie.animationSpeed = 0.2;
-            this.movie.textures = this.textures.running_right;
-
+            this.animation = 'run_left';
+            this.movie.scale.x = -1;
         } else {
-            if (this.animation == 2)
+            if (this.animation == 'run_left')
                 this.movie.stop();
         }
-        //Удар с разворота
+//        //Удар с разворота
         if (this.vertushka) {
-            this.movie.textures = this.textures.vertushka;
-            this.movie.animationSpeed = 0.3;
-            this.movie.gotoAndPlay(0);
-            this.movie.loop = false;
+            this.playanimation('vertushka');
             this.vertushka = 0;
-            this.animation = 3;
         }
-        //Сел
+//        //Сел
         if (this.sitting_down)
         {
-            if (this.timer == 0) {
-                this.animation = 4;
-                this.movie.textures = this.textures.sitting_down;
-                this.movie.animationSpeed = 0.3;
-                this.movie.gotoAndPlay(0);
-                this.movie.loop = false;
+            this.animation = 'sitting';
+            this.playanimation('sitting_down');
 
-                this.old_position = this.movie.position;
-                this.sel = 1;
+        } else {
+            if (this.animation == 'sitting') {
+                this.lock = 0;
+                this.animation = 'sitting_up';
+                this.playanimation('sitting_up');
             }
-            this.timer += 1;
         }
 
-
-        //Встал
-        if (this.sitting_up > 0)
-            if (this.sitting_down > 0)
-            {
-                this.animation = 5;
-                this.movie.textures = this.textures.sitting_up;
-                this.movie.animationSpeed = 0.3;
-                this.movie.gotoAndPlay(0);
-                this.movie.loop = false;
-                this.sitting_down = 0;
-                this.sitting_up = 0;
-                this.sel = 2;
-            }
-
-        if (this.sel == 1) {
-            this.movie.position.y = this.old_position.y + 10;
-            this.sel = 0;
-        }
-        if (this.sel == 2)
-        {
-            this.movie.position.y = this.old_position.y - 10;
-            this.sel = 0;
-        }
-
-
-
-        //кувырок
+//        //кувырок
         if (this.somersault) {
-            this.count += 1;
-            if (this.count < 2) {
-                this.movie.textures = this.textures.somersault;
-                this.movie.animationSpeed = 0.3;
-                this.movie.gotoAndPlay(0);
-                this.movie.loop = false;
-                // this.somersault = 0;
-                this.animation = 5;
+            this.playanimation('somersault');
+            this.somersault = 0;
+            this.animation = 'somersault';
+
+        } else {
+            if (this.animation == 'somersault') {
+
+                if (this.movie.scale.x > 0) {
+                    this.movie.position.x += 5;
+                } else {
+                    this.movie.position.x -= 5;
+                }
+                this.movie.anchor.x += 0.025;
+
+                //   console.log(this.movie.anchor);
             }
-//            if (this.old_position.x + 10 > this.movie.position.x)
-//                this.movie.position.x += 1;
         }
+
+
 
 
         //Спокойная стойка
         if (!this.movie.playing)
-            if (!this.sitting_down)
+            if (this.lock == 0)
             {
-                this.movie.loop = true;
-                this.movie.textures = this.textures.tranquility;
-                this.movie.play();
-                this.animation = 0;
-                this.timer = 0;
-                this.somersault = 0;
-                this.count = 0;
+                this.playanimation('tranquility');
+                this.animation = 'tranquility';
+                this.movie.anchor.x = 0.5;
             }
 
 
@@ -215,36 +266,35 @@ function Ninja() {
 var player = new Ninja();
 
 
-
 function onAssetsLoaded() {
 
     //Стойка
     for (var i = 0; i < 20; i++) {
-        player.textures.tranquility.push(PIXI.Texture.fromFrame("tranquility" + i + ".png"));
+        player.animations.tranquility.texture.push(PIXI.Texture.fromFrame("tranquility" + i + ".png"));
 
     }
     //Бег
     for (var i = 5; i < 16; i++) {
-        player.textures.running_right.push(PIXI.Texture.fromFrame("running" + i + ".png"));
+        player.animations.running.texture.push(PIXI.Texture.fromFrame("running" + i + ".png"));
     }
     //Удар
     for (var i = 0; i < 15; i++) {
-        player.textures.vertushka.push(PIXI.Texture.fromFrame("vertushka" + i + ".png"));
+        player.animations.vertushka.texture.push(PIXI.Texture.fromFrame("vertushka" + i + ".png"));
     }
     //Присел
     for (var i = 0; i < 4; i++) {
-        player.textures.sitting_down.push(PIXI.Texture.fromFrame("sitting" + i + ".png"));
+        player.animations.sitting_down.texture.push(PIXI.Texture.fromFrame("sitting" + i + ".png"));
     }
     //Встал
     for (var i = 3; i < 7; i++) {
-        player.textures.sitting_up.push(PIXI.Texture.fromFrame("sitting" + i + ".png"));
+        player.animations.sitting_up.texture.push(PIXI.Texture.fromFrame("sitting" + i + ".png"));
     }
     //Кувырок
     for (var i = 0; i < 14; i++) {
-        player.textures.somersault.push(PIXI.Texture.fromFrame("somersault" + i + ".png"));
+        player.animations.somersault.texture.push(PIXI.Texture.fromFrame("somersault" + i + ".png"));
     }
     // ninja.push(PIXI.Texture.fromFrame("running0.png"));
-    player.movie = new PIXI.MovieClip(player.textures.tranquility);
+    player.movie = new PIXI.MovieClip(player.animations.tranquility.texture);
     player.movie.anchor = {
         x: 0.5,
         y: 0.5};
@@ -254,7 +304,7 @@ function onAssetsLoaded() {
     player.movie.animationSpeed = 0.5;
     // console.log(player.movie);
 
-    player.movie.play();
+    //player.movie.play();
     player.timer = 0;
 
 
