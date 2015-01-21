@@ -20,7 +20,7 @@
             }
             .comments{
                 float: right;
-                width:665px;
+                width:400px;
             }
             .clear{
                 clear: both;
@@ -46,7 +46,7 @@
             <!-- Put this div tag to the place, where the Comments block will be -->
             <div id="vk_comments"></div>
             <script type="text/javascript">
-                VK.Widgets.Comments("vk_comments", {limit: 20, width: "665", attach: "*"});
+                VK.Widgets.Comments("vk_comments", {limit: 20, width: "400", attach: "*"});
             </script>
         </div>
         <div  class="game"></div>
