@@ -7,7 +7,7 @@ var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sit
 loader = new PIXI.AssetLoader(assetsToLoader);
 loader.onComplete = onAssetsLoaded
 loader.load();
-stage.addChild(ground);
+//stage.addChild(ground);
 
 //////////////////////Текстуры///////////////////////////////////////////// 
 ///////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ function Ninja() {
             'texture': [],
             'play': function (movie) {
                 movie.textures = this.texture;
-                movie.animationSpeed = 0.2;
+                movie.animationSpeed = 0.25;
                 movie.play();
                 movie.loop = true;
                 return 0;
@@ -134,6 +134,7 @@ function Ninja() {
         'vertushka': {
             'texture': [],
             'play': function (movie) {
+                movie.animationSpeed = 0.3;
                 movie.textures = this.texture;
                 movie.gotoAndPlay(0);
                 movie.loop = false;
@@ -189,9 +190,20 @@ function Ninja() {
 //        //Передвидение вправо влево
         if (this.right_run) {
             this.playanimation('running');
-            this.movie.position.x += 3.5;
+            this.movie.position.x += 4;
             this.movie.scale.x = 1;
             this.animation = 'run_right';
+
+            if (this.movie.position.x > 600) {
+                this.movie.position.x = 600;
+                if (pavement.position.x > -4000)
+                    pavement.position.x -= 4;
+                if (home.position.x > -4000) {
+                    home.position.x -= 2.5;
+                    home2.position.x -= 2.5;
+                }
+            }
+
         } else {
             if (this.animation == 'run_right')
                 this.movie.stop();
@@ -199,9 +211,18 @@ function Ninja() {
 //
         if (this.left_run) {
             this.playanimation('running');
-            this.movie.position.x -= 3.5;
+            this.movie.position.x -= 4;
             this.animation = 'run_left';
             this.movie.scale.x = -1;
+            if (this.movie.position.x < 100) {
+                this.movie.position.x = 100;
+                if (pavement.position.x < 0)
+                    pavement.position.x += 4;
+                if (home.position.x < 0) {
+                    home.position.x += 2.5;
+                    home2.position.x += 2.5;
+                }
+            }
         } else {
             if (this.animation == 'run_left')
                 this.movie.stop();
@@ -265,8 +286,28 @@ function Ninja() {
 
 var player = new Ninja();
 
+var image_fon = new PIXI.Texture.fromImage('fon.jpg');
+var fon = new PIXI.TilingSprite(image_fon, 1920, 1080);
+fon.position = {'x': 0, 'y': 0};
+stage.addChild(fon);
 
+var image_pavement = new PIXI.Texture.fromImage('pavement.jpg');
+var pavement = new PIXI.TilingSprite(image_pavement, 5000, 100);
+pavement.position = {'x': 0, 'y': 411};
+stage.addChild(pavement);
+
+var image_home = new PIXI.Texture.fromImage('home.jpg');
+var home = new PIXI.TilingSprite(image_home, 1000, 810);
+home.position = {'x': 0, 'y': -395};
+var home2 = new PIXI.TilingSprite(image_home, 1000, 810);
+home2.position = {'x': 1050, 'y': -395};
+
+stage.addChild(home);
+stage.addChild(home2);
 function onAssetsLoaded() {
+
+
+
 
     //Стойка
     for (var i = 0; i < 20; i++) {
@@ -300,46 +341,29 @@ function onAssetsLoaded() {
         y: 0.5};
     player.movie.position = {
         x: 400,
-        y: 400};
+        y: 375};
     player.movie.animationSpeed = 0.5;
-    // console.log(player.movie);
 
-    //player.movie.play();
     player.timer = 0;
 
-
-
-//    player2.movie = new PIXI.MovieClip(player2.textures.running);
-//    player2.movie.anchor = {
-//        x: 0.5,
-//        y: 0.5};
-//    player2.movie.position = {
-//        x: 300,
-//        y: 400};
-//    player2.movie.animationSpeed = 0.3;
-//    player2.movie.play();
-
-
     stage.addChild(player.movie);
-    //   stage.addChild(player2.movie);
-    // start animating
+
     requestAnimFrame(animate);
 }
 
 function animate() {
     requestAnimFrame(animate);
-//    player2.movie.position.x += 3.5;
-//    if (player2.movie.position.x > 792)
-//        player2.movie.position.x = 0;
+
 
     player.action();
 
 
 
-    if (player.movie.position.x > 792)
-        player.movie.position.x = 0;
-    if (player.movie.position.x < 0)
-        player.movie.position.x = 792;
+
+
+    if (player.movie.position.x < 0) {
+        pavement.position.x += 3.5;
+    }
 
     // render the stage
     renderer.render(stage);
