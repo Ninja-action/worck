@@ -32,7 +32,8 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="buzz.min.js"></script>
         <script type="text/javascript" src="jquery.keyboard.js"></script>
-        <script src="pixi.js"></script>     
+        <script src="pixi.js"></script>   
+        <script src="box2d.min.js"></script>
         <script src="myminigame.js"></script>
 
     </head>

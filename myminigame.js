@@ -1,12 +1,77 @@
+////////////////Box2d////////////////////
+// create box2d world
+
+// setup axis-aligned bounding box
+var worldAABB = new b2AABB();
+worldAABB.minVertex.Set(-1000, -1000);
+worldAABB.maxVertex.Set(1000, 1000);
+// define gravity
+var gravity = new b2Vec2(0, 300);
+// body can sleep
+var doSleep = true;
+// create world
+var world = new b2World(worldAABB, gravity, doSleep);
+// frame duration
+var timeStep = 1 / 60;
+// how many iteration for collisions calculations
+var iteration = 1;
+function addBody(sprite, x, y, width, height, density) {
+    // определение формы тела
+    var shapeDef = new b2BoxDef();
+    // размеры (из-за особенностей реализации Box2d, ополовиниваем размеры)
+    shapeDef.extents.Set(width * 0.5, height * 0.5);
+    // определение тела
+    var bodyDef = new b2BodyDef();
+    bodyDef.AddShape(shapeDef);
+    bodyDef.position.Set(x, y);
+
+    // если тело не статическое (имеет плотность)
+    if (density) {
+        shapeDef.density = density;
+        // трение
+        shapeDef.friction = 0.4;
+        // упругость
+        shapeDef.restitution = 0.002;
+        // немного повернем
+        // bodyDef.rotation = 0.8;
+    }
+    body = world.CreateBody(bodyDef);
+    // приколотим спрайт к телу
+    body.m_userData = sprite;
+    console.log(body);
+
+}
+var count = 0;
+function draw() {
+    var body, sprite;
+    for (body = world.m_bodyList; body; body = body.m_next) {
+        // выбираем спрайт из тела
+        sprite = body.GetUserData();
+        // if (!count)
+        if (sprite) {
+            count += 1;
+            sprite.position = body.GetCenterPosition();
+            sprite.rotation = body.GetRotation();
+            body.ApplyImpulse({'x': 1, 'y': 1}, body.m_position);
+        }
+    }
+}
+
+////////////////Box2d////////////////////
+
+
+
+
 var interactive = true;
 var stage = new PIXI.Stage(0x66FF99, interactive);
 var renderer = PIXI.autoDetectRenderer(792, 481);
-var image_ground = new PIXI.Texture.fromImage('ground.jpg');
-var ground = new PIXI.TilingSprite(image_ground, 792, 481);
+//var image_ground = new PIXI.Texture.fromImage('ground.jpg');
+//var ground = new PIXI.TilingSprite(image_ground, 792, 481);
 var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json", "somersault.json"];
 loader = new PIXI.AssetLoader(assetsToLoader);
 loader.onComplete = onAssetsLoaded
 loader.load();
+console.log(loader);
 //stage.addChild(ground);
 
 //////////////////////Текстуры///////////////////////////////////////////// 
@@ -193,14 +258,18 @@ function Ninja() {
             this.movie.position.x += 4;
             this.movie.scale.x = 1;
             this.animation = 'run_right';
-
             if (this.movie.position.x > 600) {
                 this.movie.position.x = 600;
-                if (pavement.position.x > -4000)
-                    pavement.position.x -= 4;
-                if (home.position.x > -4000) {
-                    home.position.x -= 2.5;
-                    home2.position.x -= 2.5;
+                if (pavement.position.x > -9000)
+                    pavement.position.x -= 3;
+                if (home.position.x > -9000) {
+                    home.position.x -= 3;
+                    home2.position.x -= 3;
+                    priton.position.x -= 3;
+                    skameika.position.x -= 3;
+                    skameika2.position.x -= 3;
+                    tree1.position.x -= 3;
+                    tree2.position.x -= 3;
                 }
             }
 
@@ -217,10 +286,15 @@ function Ninja() {
             if (this.movie.position.x < 100) {
                 this.movie.position.x = 100;
                 if (pavement.position.x < 0)
-                    pavement.position.x += 4;
+                    pavement.position.x += 3;
                 if (home.position.x < 0) {
-                    home.position.x += 2.5;
-                    home2.position.x += 2.5;
+                    home.position.x += 3;
+                    home2.position.x += 3;
+                    priton.position.x += 3;
+                    skameika.position.x += 3;
+                    skameika2.position.x += 3;
+                    tree1.position.x += 3;
+                    tree2.position.x += 3;
                 }
             }
         } else {
@@ -286,25 +360,112 @@ function Ninja() {
 
 var player = new Ninja();
 
-var image_fon = new PIXI.Texture.fromImage('fon.jpg');
-var fon = new PIXI.TilingSprite(image_fon, 1920, 1080);
-fon.position = {'x': 0, 'y': 0};
-stage.addChild(fon);
+var image_fon;
+var fon;
 
-var image_pavement = new PIXI.Texture.fromImage('pavement.jpg');
-var pavement = new PIXI.TilingSprite(image_pavement, 5000, 100);
-pavement.position = {'x': 0, 'y': 411};
-stage.addChild(pavement);
 
-var image_home = new PIXI.Texture.fromImage('home.jpg');
-var home = new PIXI.TilingSprite(image_home, 1000, 810);
-home.position = {'x': 0, 'y': -395};
-var home2 = new PIXI.TilingSprite(image_home, 1000, 810);
-home2.position = {'x': 1050, 'y': -395};
+var image_pavement;
+var pavement;
 
-stage.addChild(home);
-stage.addChild(home2);
+
+var image_home;
+var home;
+var home2;
+
+var priton;
+
+var skameika;
+var tree1;
+
+var box = [];
+var player_box;
+
+
+
+
+
 function onAssetsLoaded() {
+
+    image_pavement = new PIXI.Texture.fromImage('pavement.jpg');
+    pavement = new PIXI.TilingSprite(image_pavement, 10000, 100);
+    pavement.position = {'x': 0, 'y': 411};
+    pavement.anchor = {'x': 0, 'y': 0.3};
+
+    image_box = new PIXI.Texture.fromImage('box.png');
+
+
+
+
+
+    image_fon = new PIXI.Texture.fromImage('fon.jpg');
+    fon = new PIXI.TilingSprite(image_fon, 1920, 1080);
+    fon.position = {'x': 0, 'y': 0};
+
+
+
+
+
+    image_priton = new PIXI.Texture.fromImage('priton.png');
+    priton = new PIXI.TilingSprite(image_priton, 1694, 1125);
+    priton.position = {'x': 2100, 'y': -710};
+    stage.addChild(priton);
+
+    image_skameika = new PIXI.Texture.fromImage('skameika.png');
+    skameika = new PIXI.TilingSprite(image_skameika, 516, 83);
+    skameika.position = {'x': 0, 'y': 350};
+    skameika2 = new PIXI.TilingSprite(image_skameika, 516, 83);
+    skameika2.position = {'x': 3600, 'y': 350};
+
+    image_tree1 = new PIXI.Texture.fromImage('tree1.png');
+    tree1 = new PIXI.TilingSprite(image_tree1, 691, 865);
+    tree1.position = {'x': 0, 'y': -440};
+    tree2 = new PIXI.TilingSprite(image_tree1, 691, 865);
+    tree2.position = {'x': 3650, 'y': -440};
+
+    image_home = new PIXI.Texture.fromImage('home.jpg');
+    home = new PIXI.TilingSprite(image_home, 1000, 810);
+    home.position = {'x': 0, 'y': -395};
+    home2 = new PIXI.TilingSprite(image_home, 1000, 810);
+    home2.position = {'x': 1050, 'y': -395};
+
+
+
+    stage.addChild(fon);
+    stage.addChild(pavement);
+    stage.addChild(home);
+    stage.addChild(tree1);
+    stage.addChild(tree2);
+
+    stage.addChild(home2);
+    stage.addChild(skameika);
+    stage.addChild(skameika2);
+
+    addBody(pavement, 0, 440, 4000, 10);
+
+
+    for (var i = 0; i < 20; i++) {
+        box[i] = new PIXI.TilingSprite(image_box, 20, 20);
+        box[i].anchor = {'x': 0.5, 'y': 0.5};
+        box[i].position = {'x': 0, 'y': 0};
+        stage.addChild(box[i]);
+
+    }
+
+    for (var i = 0; i < 5; i++) {
+        addBody(box[i], 500, 320 + i * 20, 20, 20, 0.5);
+    }
+    for (var i = 5; i < 10; i++) {
+        addBody(box[i], 520, 220 + i * 20, 20, 20, 0.5);
+    }
+
+    //  player_box = new PIXI.TilingSprite(image_box, 20, 20);
+    // stage.addChild(player_box);
+
+
+
+
+
+
 
 
 
@@ -347,23 +508,21 @@ function onAssetsLoaded() {
     player.timer = 0;
 
     stage.addChild(player.movie);
-
+    // addBody(player_box, player.movie.position.x, player.movie.position.y, 20, 20, 0.5);
     requestAnimFrame(animate);
 }
 
 function animate() {
     requestAnimFrame(animate);
-
+    //box[1].applyImpulse(10, 45);
 
     player.action();
 
+    // вычисляем шаг эмуляции Box2d
+    world.Step(timeStep, iteration);
 
-
-
-
-    if (player.movie.position.x < 0) {
-        pavement.position.x += 3.5;
-    }
+    // рисуем спрайты pixi, руководствуясь новыми параметрами мира Box2d
+    draw();
 
     // render the stage
     renderer.render(stage);
