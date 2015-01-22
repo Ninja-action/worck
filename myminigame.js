@@ -3,14 +3,15 @@
 
 // setup axis-aligned bounding box
 var worldAABB = new b2AABB();
-worldAABB.minVertex.Set(-1000, -1000);
-worldAABB.maxVertex.Set(1000, 1000);
+worldAABB.minVertex.Set(-800, -800);
+worldAABB.maxVertex.Set(800, 800);
 // define gravity
-var gravity = new b2Vec2(0, 300);
+var gravity = new b2Vec2(0, 100);
 // body can sleep
 var doSleep = true;
 // create world
 var world = new b2World(worldAABB, gravity, doSleep);
+console.log(world);
 // frame duration
 var timeStep = 1 / 60;
 // how many iteration for collisions calculations
@@ -29,9 +30,9 @@ function addBody(sprite, x, y, width, height, density) {
     if (density) {
         shapeDef.density = density;
         // трение
-        shapeDef.friction = 0.4;
+        shapeDef.friction = 1;
         // упругость
-        shapeDef.restitution = 0.002;
+        shapeDef.restitution = 0;
         // немного повернем
         // bodyDef.rotation = 0.8;
     }
@@ -41,20 +42,40 @@ function addBody(sprite, x, y, width, height, density) {
     console.log(body);
 
 }
-var count = 0;
+var udar = 1;
+//function b2Vec2(x, y) {
+//    this.x = x;
+//    this.y = y;
+//}
+power = 20;
+degrees = 45;
 function draw() {
     var body, sprite;
     for (body = world.m_bodyList; body; body = body.m_next) {
         // выбираем спрайт из тела
         sprite = body.GetUserData();
-        // if (!count)
+
+        // if (!udar) {
+//        body.ApplyForce(new b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power,
+//                Math.sin(degrees * (Math.PI / 180)) * power), body.GetCenterPosition());
+        body.ApplyImpulse(
+                new b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power,
+                        Math.sin(degrees * (Math.PI / 180)) * power), {'x': 200, 'y': 200});
+                      //  body.GetWorldVector();
+                      //  {'x': 1, 'y': 1}
+        // body.ApplyTorque(50);        
+        // console.log(sprite);
+//            udar = 1;
+//        }
         if (sprite) {
-            count += 1;
             sprite.position = body.GetCenterPosition();
             sprite.rotation = body.GetRotation();
-            body.ApplyImpulse({'x': 1, 'y': 1}, body.m_position);
+
         }
+
     }
+
+
 }
 
 ////////////////Box2d////////////////////
@@ -122,6 +143,7 @@ $(document).ready(function () {
     $(document).keyup(function (event) {
         if (event.which == 86) {
             player.vertushka = 1;
+            // udar = 0;
         }
     });
 
@@ -379,7 +401,7 @@ var tree1;
 
 var box = [];
 var player_box;
-
+var balka;
 
 
 
@@ -443,7 +465,7 @@ function onAssetsLoaded() {
     addBody(pavement, 0, 440, 4000, 10);
 
 
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 1; i++) {
         box[i] = new PIXI.TilingSprite(image_box, 20, 20);
         box[i].anchor = {'x': 0.5, 'y': 0.5};
         box[i].position = {'x': 0, 'y': 0};
@@ -451,13 +473,19 @@ function onAssetsLoaded() {
 
     }
 
-    for (var i = 0; i < 5; i++) {
-        addBody(box[i], 500, 320 + i * 20, 20, 20, 0.5);
+    for (var i = 0; i < 1; i++) {
+        addBody(box[i], 100, 320 + i * 20, 20, 20, 0.5);
     }
-    for (var i = 5; i < 10; i++) {
-        addBody(box[i], 520, 220 + i * 20, 20, 20, 0.5);
-    }
+//    for (var i = 5; i < 10; i++) {
+//        addBody(box[i], 520, 220 + i * 20, 20, 20, 0.5);
+//    }
 
+    image_balka = new PIXI.Texture.fromImage('balka.png');
+    balka = new PIXI.TilingSprite(image_balka, 300, 20);
+    balka.position = {'x': 520, 'y': 300};
+    balka.anchor = {'x': 0.5, 'y': 0.5};
+   // stage.addChild(balka);
+    //addBody(balka, 520, 340, 300, 20, 0.5);
     //  player_box = new PIXI.TilingSprite(image_box, 20, 20);
     // stage.addChild(player_box);
 
