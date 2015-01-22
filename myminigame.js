@@ -3,26 +3,32 @@
 
 // setup axis-aligned bounding box
 var worldAABB = new b2AABB();
-worldAABB.minVertex.Set(-800, -800);
-worldAABB.maxVertex.Set(800, 800);
+worldAABB.minVertex.Set(-2000, -2000);
+worldAABB.maxVertex.Set(2000, 2000);
 // define gravity
-var gravity = new b2Vec2(0, 100);
+var gravity = new b2Vec2(0, 300);
 // body can sleep
 var doSleep = true;
 // create world
 var world = new b2World(worldAABB, gravity, doSleep);
-console.log(world);
+//console.log(world);
 // frame duration
 var timeStep = 1 / 60;
 // how many iteration for collisions calculations
 var iteration = 1;
 function addBody(sprite, x, y, width, height, density) {
     // определение формы тела
+    // var shapeDef = new b2CircleDef();  //new b2BoxDef();
     var shapeDef = new b2BoxDef();
+    // var poligon =  new b2CircleShape();
     // размеры (из-за особенностей реализации Box2d, ополовиниваем размеры)
     shapeDef.extents.Set(width * 0.5, height * 0.5);
+    console.log(shapeDef);
+    // shapeDef.radius = 50;
+    //  shapeDef.localPosition = {'x': width * 0.5, 'y': height * 0.5};
     // определение тела
     var bodyDef = new b2BodyDef();
+    // console.log(bodyDef);
     bodyDef.AddShape(shapeDef);
     bodyDef.position.Set(x, y);
 
@@ -39,7 +45,40 @@ function addBody(sprite, x, y, width, height, density) {
     body = world.CreateBody(bodyDef);
     // приколотим спрайт к телу
     body.m_userData = sprite;
-    console.log(body);
+    // console.log(body);
+
+}
+
+function addBodyC(sprite, x, y, width, height, density) {
+    // определение формы тела
+     var shapeDef = new b2CircleDef();  //new b2BoxDef();
+   // var shapeDef = new b2BoxDef();
+    // var poligon =  new b2CircleShape();
+    // размеры (из-за особенностей реализации Box2d, ополовиниваем размеры)
+   // shapeDef.extents.Set(width * 0.5, height * 0.5);
+    console.log(shapeDef);
+     shapeDef.radius = 25;
+    //  shapeDef.localPosition = {'x': width * 0.5, 'y': height * 0.5};
+    // определение тела
+    var bodyDef = new b2BodyDef();
+    // console.log(bodyDef);
+    bodyDef.AddShape(shapeDef);
+    bodyDef.position.Set(x, y);
+
+    // если тело не статическое (имеет плотность)
+    if (density) {
+        shapeDef.density = density;
+        // трение
+        shapeDef.friction = 40;
+        // упругость
+        shapeDef.restitution = 0.5;
+        // немного повернем
+        // bodyDef.rotation = 0.8;
+    }
+    body = world.CreateBody(bodyDef);
+    // приколотим спрайт к телу
+    body.m_userData = sprite;
+    // console.log(body);
 
 }
 var udar = 1;
@@ -47,8 +86,8 @@ var udar = 1;
 //    this.x = x;
 //    this.y = y;
 //}
-power = 20;
-degrees = 45;
+power = 90;
+degrees = 20;
 function draw() {
     var body, sprite;
     for (body = world.m_bodyList; body; body = body.m_next) {
@@ -58,11 +97,14 @@ function draw() {
         // if (!udar) {
 //        body.ApplyForce(new b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power,
 //                Math.sin(degrees * (Math.PI / 180)) * power), body.GetCenterPosition());
-        body.ApplyImpulse(
-                new b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power,
-                        Math.sin(degrees * (Math.PI / 180)) * power), {'x': 200, 'y': 200});
-                      //  body.GetWorldVector();
-                      //  {'x': 1, 'y': 1}
+        //  console.log(player);
+        if (player) {
+            body.ApplyImpulse(
+                    new b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power,
+                            Math.sin(degrees * (Math.PI / 180)) * power), player.movie.position);
+        }
+        //  body.GetWorldVector();
+        //  {'x': 1, 'y': 1}
         // body.ApplyTorque(50);        
         // console.log(sprite);
 //            udar = 1;
@@ -469,12 +511,12 @@ function onAssetsLoaded() {
         box[i] = new PIXI.TilingSprite(image_box, 20, 20);
         box[i].anchor = {'x': 0.5, 'y': 0.5};
         box[i].position = {'x': 0, 'y': 0};
-        stage.addChild(box[i]);
+        // stage.addChild(box[i]);
 
     }
 
     for (var i = 0; i < 1; i++) {
-        addBody(box[i], 100, 320 + i * 20, 20, 20, 0.5);
+        // addBody(box[i], 100, 320 + i * 20, 20, 20, 0.5);
     }
 //    for (var i = 5; i < 10; i++) {
 //        addBody(box[i], 520, 220 + i * 20, 20, 20, 0.5);
@@ -484,12 +526,17 @@ function onAssetsLoaded() {
     balka = new PIXI.TilingSprite(image_balka, 300, 20);
     balka.position = {'x': 520, 'y': 300};
     balka.anchor = {'x': 0.5, 'y': 0.5};
-   // stage.addChild(balka);
+    // stage.addChild(balka);
     //addBody(balka, 520, 340, 300, 20, 0.5);
     //  player_box = new PIXI.TilingSprite(image_box, 20, 20);
     // stage.addChild(player_box);
 
-
+    image_circle = new PIXI.Texture.fromImage('circle.png');
+    circle = new PIXI.TilingSprite(image_circle, 50, 50);
+    circle.position = {'x': 520, 'y': 300};
+    circle.anchor = {'x': 0.5, 'y': 0.5};
+    stage.addChild(circle);
+    addBodyC(circle, 100, 300, 50, 50, 0.5);
 
 
 
