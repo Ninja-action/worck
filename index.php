@@ -34,6 +34,13 @@
         <script type="text/javascript" src="jquery.keyboard.js"></script>
         <script src="pixi.js"></script>   
         <script src="box2d.min.js"></script>
+
+        <script src="classes/fons.js"></script>
+        <script src="classes/player.js"></script>
+
+        <script src="objects/level_1.js"></script>
+
+
         <script src="myminigame.js"></script>
 
     </head>
