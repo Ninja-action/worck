@@ -6,7 +6,9 @@ function Ninja() {
         'vertushka': [],
         'sitting_down': [],
         'sitting_up': [],
-        'somersault': []
+        'somersault': [],
+        'rise': [],
+        'drop_down': []
     };
     this.speed = 2000000;
     this.animations = {
@@ -74,6 +76,34 @@ function Ninja() {
                     y: 0.5};
                 return 0;
             }
+        },
+        'rise': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.3;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+                // movie.position.x += 100;
+                movie.anchor = {
+                    x: 0.5,
+                    y: 0.5};
+                return 0;
+            }
+        },
+        'drop_down': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.3;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+                // movie.position.x += 100;
+                movie.anchor = {
+                    x: 0.5,
+                    y: 0.5};
+                return 0;
+            }
         }
 
     };
@@ -81,7 +111,7 @@ function Ninja() {
     this.playanimation = function (animation) {
         if (this.lock == 0)
             this.lock = this.animations[animation].play(this.movie);
-        console.log(this.lock);
+        // console.log(this.lock);
     }
     this.movie = null;
     this.action = function () {
@@ -98,6 +128,8 @@ function Ninja() {
                     this.movie.position.x = 600;
                     fons.move('right'); //Двигаем фон
                 }
+                fons.move('right_find_wall');
+
 
             } else {
                 if (this.animation == 'run_right') {
@@ -170,7 +202,30 @@ function Ninja() {
             }
         }
 
+        if ((this.wall) && (fons.wall)) {
+            this.playanimation('rise');
+            this.wall = 0;
+            this.animation = 'wall';
+            this.lock = 1;
+        } else {
+            this.wall = 0;
+            if ((this.movie.playing) && (this.animation == 'wall')) {
+                this.movie.anchor.y -= 0.006;
+                if (this.movie.currentFrame < 15) {
+                    fons.move('wall');
+                } else {
+                    fons.move('wall_plus');
+                    this.movie.position.y -= 4.8;
+                    fons.wall = false;
+                }
+                //  this.movie.position.y += 0.1;
+            } else {
+                this.lock = 0;
+            }
+        }
 
+
+        // if(this.movie.position.x==fons.)
 
 
         //Спокойная стойка
@@ -180,6 +235,8 @@ function Ninja() {
                 this.playanimation('tranquility');
                 this.animation = 'tranquility';
                 this.movie.anchor.x = 0.5;
+                this.movie.anchor.y = 0.5;
+
             }
 
 

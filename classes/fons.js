@@ -3,6 +3,7 @@ function Fons() {
     this.TilingSprites = [];
     this.ground;
     this.level_width;
+    this.wall = false;
     this.setTilingSprite = function () {
         var Sprites = [];
         this.images.forEach(function (item) {
@@ -35,6 +36,7 @@ function Fons() {
         });
     }
     this.move = function (direction) {
+        var wall = this.wall;
         this.TilingSprites.forEach(function (item) {
             switch (direction) {
                 case 'right':
@@ -42,6 +44,21 @@ function Fons() {
                         if (this.ground.position.x > this.level_width)
                             item.sprite.object.position.x -= 3;
                     break;
+                case 'right_find_wall':
+                    if (item.sprite.name == 'wall')
+                        if ((player.movie.position.x > item.sprite.object.position.x - 20) && (player.movie.position.x < item.sprite.object.position.x + 20))
+                        {
+                            if (player.movie.scale.x == 1) //Лицом к стене
+                                if ((player.movie.position.y - item.sprite.object.position.y) == 250) { //Проверка на уровень высоты
+                                    wall = true;
+                                } else {
+                                    wall = false;
+                                }
+                        } else {
+                            wall = false;
+                        }
+                    break;
+
                 case 'left':
                     if (!item.sprite.static)
                         if (this.ground.position.x < 0)
@@ -58,9 +75,20 @@ function Fons() {
                         if (this.ground.position.x > this.level_width)
                             item.sprite.object.position.x += 4;
                     break;
+                case 'wall':
+                    if (!item.sprite.static)
+                        //  if (this.ground.position.x > this.level_width)
+                        // console.log(item.sprite.object);
+                        item.sprite.object.position.y += 6;
+                    break;
+                case 'wall_plus':
+                    item.sprite.object.position.x -= 7;
+                    break;
+
             }
 
         });
+        this.wall = wall;
     }
 }
 

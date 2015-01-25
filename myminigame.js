@@ -138,7 +138,7 @@ var stage = new PIXI.Stage(0x66FF99, interactive);
 var renderer = PIXI.autoDetectRenderer(792, 481);
 //var image_ground = new PIXI.Texture.fromImage('ground.jpg');
 //var ground = new PIXI.TilingSprite(image_ground, 792, 481);
-var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json", "somersault.json"];
+var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json", "somersault.json", "rise.json", "drop_down.json"];
 loader = new PIXI.AssetLoader(assetsToLoader);
 loader.onComplete = onAssetsLoaded
 loader.load();
@@ -214,6 +214,12 @@ $(document).ready(function () {
             console.log('встал');
         }
     });
+    //Вверх по стене
+    $(document).keyup(function (event) {
+        if (event.which == 32) {
+            player.wall = 1;
+        }
+    });
 
     $(document).keyup(function (event) {
         if (event.which == 88) {
@@ -283,6 +289,11 @@ function onAssetsLoaded() {
     for (var i = 0; i < 14; i++) {
         player.animations.somersault.texture.push(PIXI.Texture.fromFrame("somersault" + i + ".png"));
     }
+    //Забраться по стене
+    for (var i = 0; i < 17; i++) {
+        player.animations.rise.texture.push(PIXI.Texture.fromFrame("rise" + i + ".png"));
+    }
+
     // ninja.push(PIXI.Texture.fromFrame("running0.png"));
     player.movie = new PIXI.MovieClip(player.animations.tranquility.texture);
     player.movie.anchor = {
