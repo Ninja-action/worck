@@ -293,6 +293,10 @@ function onAssetsLoaded() {
     for (var i = 0; i < 17; i++) {
         player.animations.rise.texture.push(PIXI.Texture.fromFrame("rise" + i + ".png"));
     }
+    //Слезть со стены
+    for (var i = 0; i < 19; i++) {
+        player.animations.drop_down.texture.push(PIXI.Texture.fromFrame("drop_down" + i + ".png"));
+    }
 
     // ninja.push(PIXI.Texture.fromFrame("running0.png"));
     player.movie = new PIXI.MovieClip(player.animations.tranquility.texture);

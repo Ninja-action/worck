@@ -4,6 +4,8 @@ function Fons() {
     this.ground;
     this.level_width;
     this.wall = false;
+    this.wall_end = false;
+    this.up = false;
     this.setTilingSprite = function () {
         var Sprites = [];
         this.images.forEach(function (item) {
@@ -37,6 +39,7 @@ function Fons() {
     }
     this.move = function (direction) {
         var wall = this.wall;
+        var wall_end = this.wall_end;
         this.TilingSprites.forEach(function (item) {
             switch (direction) {
                 case 'right':
@@ -48,17 +51,37 @@ function Fons() {
                     if (item.sprite.name == 'wall')
                         if ((player.movie.position.x > item.sprite.object.position.x - 20) && (player.movie.position.x < item.sprite.object.position.x + 20))
                         {
-                            if (player.movie.scale.x == 1) //Лицом к стене
-                                if ((player.movie.position.y - item.sprite.object.position.y) == 250) { //Проверка на уровень высоты
-                                    wall = true;
-                                } else {
-                                    wall = false;
-                                }
+                            //Когда поворачиваюсь назад эта штука не срабатывает
+                         //   if (((player.movie.position.y - item.sprite.object.position.y) == 250) && (player.movie.scale.x > 0)) { //Проверка на уровень высоты  //Лицом к стене
+                                wall = true;
+//                            } else {
+//                                wall = false;
+//                            }
                         } else {
                             wall = false;
                         }
                     break;
 
+                case 'right_find_wall_end':
+                    if (item.sprite.name == 'wall')
+                        if ((player.movie.position.x + 43 > item.sprite.object.position.x + item.sprite.object._width + 5) && (player.movie.position.x + 43 < item.sprite.object.position.x + item.sprite.object._width + 10))
+                        {
+                            //от края +-20 43 - половина игрока 
+//                            //Когда поворачиваюсь назад эта штука не срабатывает
+                            if (item.sprite.object.position.y > player.movie.position.y) { //Проверка  высоты  
+                                wall_end = true;
+
+                            } else {
+                                wall_end = false;
+                            }
+                        } else {
+                            wall_end = false;
+                        }
+                    break;
+                case 'wall_end':
+                    if (!item.sprite.static)
+                        item.sprite.object.position.y = player.movie.position.y - 250;
+                    break;
                 case 'left':
                     if (!item.sprite.static)
                         if (this.ground.position.x < 0)
@@ -72,23 +95,28 @@ function Fons() {
                     break;
                 case 'left_somersault':
                     if (!item.sprite.static)
-                        if (this.ground.position.x > this.level_width)
+                        if (this.ground.position.x < 0)
                             item.sprite.object.position.x += 4;
                     break;
                 case 'wall':
-                    if (!item.sprite.static)
-                        //  if (this.ground.position.x > this.level_width)
-                        // console.log(item.sprite.object);
-                        item.sprite.object.position.y += 6;
+                    if (!item.sprite.static) {
+                        //   item.sprite.object.position.y += 6;
+                       // if (!this.up)
+                           // item.sprite.object.position.y = item.sprite.object.position.y + 250;
+                        
+                    }
                     break;
                 case 'wall_plus':
-                    item.sprite.object.position.x -= 7;
+                   // item.sprite.object.position.x -= 7;
                     break;
 
             }
 
         });
+        this.up = true;
         this.wall = wall;
+        this.wall_end = wall_end;
+
     }
 }
 

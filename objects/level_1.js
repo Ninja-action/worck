@@ -103,7 +103,7 @@ function load_level_1() {
         'image': {
             'name': 'wall',
             'width': 150,
-            'height': 315,
+            'height': 390,
             'ground': false,
             'static': false,
             'physics': true,
@@ -112,7 +112,7 @@ function load_level_1() {
                 // return false;
                 
             },
-            'position': {'x': 450, 'y': 125},
+            'position': {'x': 450, 'y': 60},
             'anchor': {'x': 0, 'y': 0},
             'object': new PIXI.Texture.fromImage('wall.png')
         }
