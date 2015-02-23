@@ -82,7 +82,7 @@ function Ninja() {
             'texture': [],
             'play': function (movie) {
                 movie.textures = this.texture;
-                movie.animationSpeed = 0.1;
+                movie.animationSpeed = 0.4;
                 movie.gotoAndPlay(0);
                 movie.loop = false;
                 // movie.position.x += 100;
@@ -96,7 +96,7 @@ function Ninja() {
             'texture': [],
             'play': function (movie) {
                 movie.textures = this.texture;
-                movie.animationSpeed = 0.1;
+                movie.animationSpeed = 0.5;
                 movie.gotoAndPlay(0);
                 movie.loop = false;
                 // movie.position.x += 100;
@@ -126,8 +126,8 @@ function Ninja() {
                 this.animation = 'run_right';
 
                 // this.speed *= -1;
-                if (this.movie.position.x > 600) {
-                    this.movie.position.x = 600;
+                if (this.movie.position.x > window.w-500) {
+                    this.movie.position.x = window.w-500;
                     fons.move('right'); //Двигаем фон
                 }
                 fons.move('right_find_wall');
@@ -189,8 +189,8 @@ function Ninja() {
 
                 if (this.movie.scale.x > 0) {
                     this.movie.position.x += 5;
-                    if (this.movie.position.x > 600) {
-                        this.movie.position.x = 600;
+                    if (this.movie.position.x > window.w-500) {
+                        this.movie.position.x = window.w-500;
                         fons.move('right_somersault');
                     }
                 } else {
@@ -216,16 +216,8 @@ function Ninja() {
         } else {
             this.wall = 0;
             if ((this.movie.playing) && (this.animation == 'wall')) {
-                //this.movie.anchor.y -= 0.006;
-                if (this.movie.currentFrame < 15) {
-                    fons.move('wall');
-                } else {
-                    fons.move('wall_plus');
-                    // this.movie.position.y -= 4.8;
-                    fons.wall = false;
-                }
-
-                //  this.movie.position.y += 0.1;
+               // fons.move('wall');
+               // this.movie.position.y += 6;
             } else {
                 if ((this.animation == 'wall')) {
                     this.lock = 0;
@@ -234,20 +226,37 @@ function Ninja() {
             }
         }
 
-        console.log(fons.wall_end);
+        //console.log(this.movie.position.x);
         //Слезаем со стены
         if (fons.wall_end) {
-            console.log('Край стены');
+            //  console.log('Край стены');
             this.playanimation('drop_down');
 
             this.animation = 'drop_down';
             this.lock = 1;
             if ((this.movie.playing) && (this.animation == 'drop_down')) {
+                // console.log(this.movie.currentFrame);
 
+                //  fons.move('wall_end');
+                //  this.movie.position.y -= 8;
+
+                if ((this.movie.currentFrame == 9)) {
+                    this.movie.position.y += 20;
+                    //   console.log(this.movie.position.y);
+                } else {
+                    if (this.movie.currentFrame == 13) {
+                        //this.movie.position.y = 0;
+                        //console.log(this.movie.position.y);
+                    }
+                }
             } else {
                 this.lock = 0;
                 fons.wall_end = false;
-                this.movie.position.y += 385;
+                this.movie.position.x += 45;
+                this.movie.position.y = window.h-110;
+
+                fons.move('return_positions');
+                console.log(fons.old);
             }
             //
             //  fons.move('wall_end');
@@ -263,6 +272,7 @@ function Ninja() {
                 this.movie.anchor.x = 0.5;
                 this.movie.anchor.y = 0.5;
                 this.movie.animationSpeed = 0.5;
+                // fons.move('seve_positions');
             }
 
 

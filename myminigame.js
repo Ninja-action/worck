@@ -1,4 +1,11 @@
-//importScripts('classes/fons.js');
+var window = {w: 0, h: 0};
+var assetsToLoader;
+var renderer;
+var stage;
+var interactive;
+//
+//
+////importScripts('classes/fons.js');
 //importScripts('classes/player.js');
 //////////////////Box2d////////////////////
 // create box2d world
@@ -130,19 +137,18 @@ function draw() {
 
 ////////////////Box2d////////////////////
 
+function inicialize() {
+    interactive = true;
+    stage = new PIXI.Stage(0x66FF99, interactive);
+    renderer = PIXI.autoDetectRenderer(window.w, window.h);
+    assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json", "somersault.json", "rise.json", "drop_down.json"];
+    loader = new PIXI.AssetLoader(assetsToLoader);
+    loader.onComplete = onAssetsLoaded
+    loader.load();
+}
 
 
 
-var interactive = true;
-var stage = new PIXI.Stage(0x66FF99, interactive);
-var renderer = PIXI.autoDetectRenderer(792, 481);
-//var image_ground = new PIXI.Texture.fromImage('ground.jpg');
-//var ground = new PIXI.TilingSprite(image_ground, 792, 481);
-var assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json", "somersault.json", "rise.json", "drop_down.json"];
-loader = new PIXI.AssetLoader(assetsToLoader);
-loader.onComplete = onAssetsLoaded
-loader.load();
-console.log(loader);
 //stage.addChild(ground);
 
 //////////////////////Текстуры///////////////////////////////////////////// 
@@ -156,6 +162,11 @@ var mySound = new buzz.sound("KharmaGuess - Ninja Action Ringtone", {
 
 
 $(document).ready(function () {
+    window.w = $(window).width();
+    window.h = $(window).height();
+
+   
+    inicialize();
     // mySound.play().loop();
     $('#stop').click(function () {
         mySound.stop();
@@ -294,7 +305,7 @@ function onAssetsLoaded() {
         player.animations.rise.texture.push(PIXI.Texture.fromFrame("rise" + i + ".png"));
     }
     //Слезть со стены
-    for (var i = 0; i < 19; i++) {
+    for (var i = 0; i < 18; i++) {
         player.animations.drop_down.texture.push(PIXI.Texture.fromFrame("drop_down" + i + ".png"));
     }
 
@@ -305,12 +316,17 @@ function onAssetsLoaded() {
         y: 0.5};
     player.movie.position = {
         x: 400,
-        y: 375};
+        y: window.h-110};
     player.movie.animationSpeed = 0.5;
 
     player.timer = 0;
 
     stage.addChild(player.movie);
+
+
+    fons.move('seve_positions');
+    console.log(fons.old);
+
     // addBody(player_box, player.movie.position.x, player.movie.position.y, 20, 20, 0.5);
     requestAnimFrame(animate);
 }

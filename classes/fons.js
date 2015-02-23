@@ -6,6 +6,7 @@ function Fons() {
     this.wall = false;
     this.wall_end = false;
     this.up = false;
+    this.old = [];
     this.setTilingSprite = function () {
         var Sprites = [];
         this.images.forEach(function (item) {
@@ -14,7 +15,7 @@ function Fons() {
             object.anchor = item.image.anchor;
             if (item.image.ground == true) {
                 this.ground = object;
-                this.level_width = item.image.width * -1 + 1000;
+                this.level_width = item.image.width * -1 + window.w;
             }
             Sprites.push({
                 'sprite': {
@@ -40,7 +41,9 @@ function Fons() {
     this.move = function (direction) {
         var wall = this.wall;
         var wall_end = this.wall_end;
-        this.TilingSprites.forEach(function (item) {
+        var old = this.old;
+        var all_length = this.TilingSprites.length;
+        this.TilingSprites.forEach(function (item, index) {
             switch (direction) {
                 case 'right':
                     if (!item.sprite.static)
@@ -52,8 +55,8 @@ function Fons() {
                         if ((player.movie.position.x > item.sprite.object.position.x - 20) && (player.movie.position.x < item.sprite.object.position.x + 20))
                         {
                             //Когда поворачиваюсь назад эта штука не срабатывает
-                         //   if (((player.movie.position.y - item.sprite.object.position.y) == 250) && (player.movie.scale.x > 0)) { //Проверка на уровень высоты  //Лицом к стене
-                                wall = true;
+                            //   if (((player.movie.position.y - item.sprite.object.position.y) == 250) && (player.movie.scale.x > 0)) { //Проверка на уровень высоты  //Лицом к стене
+                            wall = true;
 //                            } else {
 //                                wall = false;
 //                            }
@@ -79,8 +82,10 @@ function Fons() {
                         }
                     break;
                 case 'wall_end':
-                    if (!item.sprite.static)
-                        item.sprite.object.position.y = player.movie.position.y - 250;
+
+                    if (!item.sprite.static) {
+                      //  item.sprite.object.position.y -= 8;
+                    }
                     break;
                 case 'left':
                     if (!item.sprite.static)
@@ -100,14 +105,31 @@ function Fons() {
                     break;
                 case 'wall':
                     if (!item.sprite.static) {
-                        //   item.sprite.object.position.y += 6;
-                       // if (!this.up)
-                           // item.sprite.object.position.y = item.sprite.object.position.y + 250;
-                        
+                      //  item.sprite.object.position.y += 6;
+                        // if (!this.up)
+                        // item.sprite.object.position.y = item.sprite.object.position.y + 250;
                     }
                     break;
                 case 'wall_plus':
-                   // item.sprite.object.position.x -= 7;
+                    // item.sprite.object.position.x -= 7;
+                    break;
+
+                case 'seve_positions':
+
+
+//                    old[index] = {'name': item.sprite.name,
+//                        'position': item.sprite.object.position};
+                   
+
+                    break;
+                case 'return_positions':
+                    //  if (!item.sprite.static) {
+//                    console.log(old_positions[index].y);
+                    // console.log(old[index]);
+
+//                    item.sprite.object.position.x = old[index].position.x;
+//                    item.sprite.object.position.y = old[index].position.y;
+                    //  }
                     break;
 
             }
@@ -117,6 +139,16 @@ function Fons() {
         this.wall = wall;
         this.wall_end = wall_end;
 
+        //console.log('count');
+       // console.log(this.old);
+//         if (this.old..length < old.length){
+//              this.old_positions = old_positions;
+//              console.log('count');
+//         }
+
+
+
     }
+   
 }
 

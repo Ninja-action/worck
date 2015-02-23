@@ -3,8 +3,8 @@ function load_level_1() {
     fons.images.push({
         'image': {
             'name': 'fon',
-            'width': 889,
-            'height': 500,
+            'width': window.w,
+            'height': window.h,
             'ground': false,
             'static': true,
             'physics': false,
@@ -22,10 +22,10 @@ function load_level_1() {
             'static': false,
             'physics': true,
             'physics_function': function (object) {
-                addBody(object, 0, 440, 4000, 10);
+                 addBody(object, 0, window.h-100*0.3-10, 4000, 10);
                 // return false;
             },
-            'position': {'x': 0, 'y': 440},
+            'position': {'x': 0, 'y': window.h-100*0.3-10},
             'anchor': {'x': 0, 'y': 0.3},
             'object': new PIXI.Texture.fromImage('pavement.jpg')
         }
@@ -38,7 +38,7 @@ function load_level_1() {
             'ground': false,
             'static': false,
             'physics': false,
-            'position': {'x': 0, 'y': -395},
+            'position': {'x': 0, 'y': window.h-810-70},
             'anchor': {'x': 0, 'y': 0},
             'object': new PIXI.Texture.fromImage('home.jpg')
         }
@@ -51,7 +51,7 @@ function load_level_1() {
             'ground': false,
             'static': false,
             'physics': false,
-            'position': {'x': 2100, 'y': -710},
+            'position': {'x': 2100, 'y': window.h-1125-60},
             'anchor': {'x': 0, 'y': 0},
             'object': new PIXI.Texture.fromImage('priton.png')
         }
@@ -64,7 +64,7 @@ function load_level_1() {
             'ground': false,
             'static': false,
             'physics': false,
-            'position': {'x': 0, 'y': -440},
+            'position': {'x': 0, 'y': window.h-865-50},
             'anchor': {'x': 0, 'y': 0},
             'object': new PIXI.Texture.fromImage('tree1.png')
         }
@@ -77,7 +77,7 @@ function load_level_1() {
             'ground': false,
             'static': false,
             'physics': false,
-            'position': {'x': 0, 'y': 350},
+            'position': {'x': 0, 'y': window.h-83-50},
             'anchor': {'x': 0, 'y': 0},
             'object': new PIXI.Texture.fromImage('skameika.png')
         }
@@ -110,9 +110,9 @@ function load_level_1() {
             'physics_function': function (object) {
                 //addBodyC(object, 100, 410, 50, 50, 0.5);
                 // return false;
-                
+
             },
-            'position': {'x': 450, 'y': 60},
+            'position': {'x': 450, 'y': window.h-390-40},
             'anchor': {'x': 0, 'y': 0},
             'object': new PIXI.Texture.fromImage('wall.png')
         }
