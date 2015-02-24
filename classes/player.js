@@ -126,8 +126,8 @@ function Ninja() {
                 this.animation = 'run_right';
 
                 // this.speed *= -1;
-                if (this.movie.position.x > window.w-500) {
-                    this.movie.position.x = window.w-500;
+                if (this.movie.position.x > window.w - 500) {
+                    this.movie.position.x = window.w - 500;
                     fons.move('right'); //Двигаем фон
                 }
                 fons.move('right_find_wall');
@@ -153,6 +153,9 @@ function Ninja() {
                     this.movie.position.x = 100;
                     fons.move('left');
                 }
+                fons.move('left_find_wall');
+                fons.move('left_find_wall_end');
+
             } else {
                 if (this.animation == 'run_left') {
                     this.movie.stop();
@@ -189,8 +192,8 @@ function Ninja() {
 
                 if (this.movie.scale.x > 0) {
                     this.movie.position.x += 5;
-                    if (this.movie.position.x > window.w-500) {
-                        this.movie.position.x = window.w-500;
+                    if (this.movie.position.x > window.w - 500) {
+                        this.movie.position.x = window.w - 500;
                         fons.move('right_somersault');
                     }
                 } else {
@@ -216,8 +219,8 @@ function Ninja() {
         } else {
             this.wall = 0;
             if ((this.movie.playing) && (this.animation == 'wall')) {
-               // fons.move('wall');
-               // this.movie.position.y += 6;
+                // fons.move('wall');
+                // this.movie.position.y += 6;
             } else {
                 if ((this.animation == 'wall')) {
                     this.lock = 0;
@@ -253,7 +256,7 @@ function Ninja() {
                 this.lock = 0;
                 fons.wall_end = false;
                 this.movie.position.x += 45;
-                this.movie.position.y = window.h-110;
+                this.movie.position.y = window.h - 110;
 
                 fons.move('return_positions');
                 console.log(fons.old);

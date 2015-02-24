@@ -50,6 +50,7 @@ function Fons() {
                         if (this.ground.position.x > this.level_width)
                             item.sprite.object.position.x -= 3;
                     break;
+                    //Поиск стены справа    
                 case 'right_find_wall':
                     if (item.sprite.name == 'wall')
                         if ((player.movie.position.x > item.sprite.object.position.x - 20) && (player.movie.position.x < item.sprite.object.position.x + 20))
@@ -57,9 +58,21 @@ function Fons() {
                             //Когда поворачиваюсь назад эта штука не срабатывает
                             //   if (((player.movie.position.y - item.sprite.object.position.y) == 250) && (player.movie.scale.x > 0)) { //Проверка на уровень высоты  //Лицом к стене
                             wall = true;
+
 //                            } else {
 //                                wall = false;
 //                            }
+                        } else {
+                            wall = false;
+                        }
+                    break;
+                    //Поиск стены слева
+                case 'left_find_wall':
+                    if (item.sprite.name == 'wall')
+                        if ((player.movie.position.x > item.sprite.object.position.x + item.sprite.object._width - 20) && (player.movie.position.x < item.sprite.object.position.x + item.sprite.object._width + 20))
+                        {
+                            wall = true;
+                            // console.log(item.sprite.object._width)
                         } else {
                             wall = false;
                         }
@@ -81,10 +94,29 @@ function Fons() {
                             wall_end = false;
                         }
                     break;
+
+                case 'left_find_wall_end':
+                    if (item.sprite.name == 'wall')
+                        if ((player.movie.position.x - 43 > item.sprite.object.position.x + 5) && (player.movie.position.x - 43 < item.sprite.object.position.x + 10))
+                        {
+                            //от края +-20 43 - половина игрока 
+//                            //Когда поворачиваюсь назад эта штука не срабатывает
+                            if (item.sprite.object.position.y > player.movie.position.y) { //Проверка  высоты  
+                                wall_end = true;
+                                //alert('край стены');
+                            } else {
+                                wall_end = false;
+                            }
+                        } else {
+                            wall_end = false;
+                        }
+                    break;
+
+
                 case 'wall_end':
 
                     if (!item.sprite.static) {
-                      //  item.sprite.object.position.y -= 8;
+                        //  item.sprite.object.position.y -= 8;
                     }
                     break;
                 case 'left':
@@ -105,7 +137,7 @@ function Fons() {
                     break;
                 case 'wall':
                     if (!item.sprite.static) {
-                      //  item.sprite.object.position.y += 6;
+                        //  item.sprite.object.position.y += 6;
                         // if (!this.up)
                         // item.sprite.object.position.y = item.sprite.object.position.y + 250;
                     }
@@ -119,7 +151,7 @@ function Fons() {
 
 //                    old[index] = {'name': item.sprite.name,
 //                        'position': item.sprite.object.position};
-                   
+
 
                     break;
                 case 'return_positions':
@@ -140,7 +172,7 @@ function Fons() {
         this.wall_end = wall_end;
 
         //console.log('count');
-       // console.log(this.old);
+        // console.log(this.old);
 //         if (this.old..length < old.length){
 //              this.old_positions = old_positions;
 //              console.log('count');
@@ -149,6 +181,6 @@ function Fons() {
 
 
     }
-   
+
 }
 
