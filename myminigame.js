@@ -141,7 +141,16 @@ function inicialize() {
     interactive = true;
     stage = new PIXI.Stage(0x66FF99, interactive);
     renderer = PIXI.autoDetectRenderer(window.w, window.h);
-    assetsToLoader = ["tranquility.json", "running.json", "vertushka.json", "sitting.json", "somersault.json", "rise.json", "drop_down.json"];
+    assetsToLoader = ["tranquility.json",
+	"running.json",
+	"vertushka.json",
+	"sitting.json",
+	"somersault.json",
+	"rise.json",
+	"drop_down.json",
+	"movies/rise_easy.json",
+        "movies/drop_down2.json"
+	];
     loader = new PIXI.AssetLoader(assetsToLoader);
     loader.onComplete = onAssetsLoaded
     loader.load();
@@ -308,6 +317,15 @@ function onAssetsLoaded() {
     for (var i = 0; i < 18; i++) {
         player.animations.drop_down.texture.push(PIXI.Texture.fromFrame("drop_down" + i + ".png"));
     }
+	//Забраться на стену чуть меньше
+	for(var i = 0; i < 24; i++){
+	player.animations.rise_easy.texture.push(PIXI.Texture.fromFrame("rise_easy" + i + ".png"));
+	}
+        //Спрыгнуть
+     for(var i = 0; i < 14; i++){
+	player.animations.drop_down_easy.texture.push(PIXI.Texture.fromFrame("drop_down2" + i + ".png"));
+	}   
+        
 
     // ninja.push(PIXI.Texture.fromFrame("running0.png"));
     player.movie = new PIXI.MovieClip(player.animations.tranquility.texture);
@@ -324,7 +342,7 @@ function onAssetsLoaded() {
     stage.addChild(player.movie);
 
 
-    fons.move('seve_positions');
+    //fons.move('seve_positions');
     console.log(fons.old);
 
     // addBody(player_box, player.movie.position.x, player.movie.position.y, 20, 20, 0.5);

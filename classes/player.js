@@ -8,7 +8,9 @@ function Ninja() {
         'sitting_up': [],
         'somersault': [],
         'rise': [],
-        'drop_down': []
+        'drop_down': [],
+        'rise_easy': [],
+        'drop_down_easy':[]
     };
     this.speed = 2000000;
     this.animations = {
@@ -103,6 +105,35 @@ function Ninja() {
                 movie.anchor = {
                     x: 0.5,
                     y: -0.02};
+                return 0;
+            }
+        },
+        'rise_easy': {
+            //(297-(149/2))/297 - якорь
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.4;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+                // movie.position.x += 100;
+                movie.anchor = {
+                    x: 0.5,
+                    y: 1};
+                return 0;
+            }
+        },
+         'drop_down_easy': {
+            'texture': [],
+            'play': function (movie) {
+                movie.textures = this.texture;
+                movie.animationSpeed = 0.5;
+                movie.gotoAndPlay(0);
+                movie.loop = false;
+               
+                movie.anchor = {
+                    x: 0.5,
+                    y: 0.5};
                 return 0;
             }
         }
@@ -217,14 +248,36 @@ function Ninja() {
             this.lock = 1;
             this.movie.anchor.y = 1;
         } else {
-            this.wall = 0;
+
             if ((this.movie.playing) && (this.animation == 'wall')) {
+                this.wall = 0;
                 // fons.move('wall');
                 // this.movie.position.y += 6;
             } else {
                 if ((this.animation == 'wall')) {
                     this.lock = 0;
                     this.movie.position.y -= 385;
+                }
+            }
+        }
+
+        //Анимация подъема на маленькую стену в 210px
+       // console.log(this.wall);
+        if ((this.wall) && (fons.wall2)) {
+            
+            this.playanimation('rise_easy');
+            this.wall = 0;
+            this.animation = 'wall2';
+            this.lock = 1;
+            this.movie.anchor.y = 0.75; //Пока руками а так формула сверху
+        } else {
+            this.wall = 0;
+            if ((this.movie.playing) && (this.animation == 'wall2')) {
+
+            } else {
+                if ((this.animation == 'wall2')) {
+                    this.lock = 0;
+                    this.movie.position.y -= 210;
                 }
             }
         }

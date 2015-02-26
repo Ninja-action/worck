@@ -4,6 +4,7 @@ function Fons() {
     this.ground;
     this.level_width;
     this.wall = false;
+    this.wall2 = false;
     this.wall_end = false;
     this.up = false;
     this.old = [];
@@ -40,6 +41,7 @@ function Fons() {
     }
     this.move = function (direction) {
         var wall = this.wall;
+        var wall2 = this.wall2;
         var wall_end = this.wall_end;
         var old = this.old;
         var all_length = this.TilingSprites.length;
@@ -65,6 +67,15 @@ function Fons() {
                         } else {
                             wall = false;
                         }
+                    if (item.sprite.name == 'wall2')
+                        if ((player.movie.position.x > item.sprite.object.position.x - 20) && (player.movie.position.x < item.sprite.object.position.x + 20))
+                        {
+                            wall2 = true;
+                                    //alert('стена');
+                        } else {
+                            wall2 = false;
+                        }
+
                     break;
                     //Поиск стены слева
                 case 'left_find_wall':
@@ -169,6 +180,7 @@ function Fons() {
         });
         this.up = true;
         this.wall = wall;
+        this.wall2 = wall2;
         this.wall_end = wall_end;
 
         //console.log('count');

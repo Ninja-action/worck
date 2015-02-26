@@ -106,7 +106,7 @@ function load_level_1() {
             'height': 390,
             'ground': false,
             'static': false,
-            'physics': true,
+            'physics': false,
             'physics_function': function (object) {
                 //addBodyC(object, 100, 410, 50, 50, 0.5);
                 // return false;
@@ -115,6 +115,24 @@ function load_level_1() {
             'position': {'x': 450, 'y': window.h-390-40},
             'anchor': {'x': 0, 'y': 0},
             'object': new PIXI.Texture.fromImage('wall.png')
+        }
+    });
+    fons.images.push({
+        'image': {
+            'name': 'wall2',
+            'width': 1000,
+            'height': 210,
+            'ground': false,
+            'static': false,
+            'physics': false,
+            'physics_function': function (object) {
+                //addBodyC(object, 100, 410, 50, 50, 0.5);
+                // return false;
+
+            },
+            'position': {'x': 900, 'y': window.h-210-40},
+            'anchor': {'x': 0, 'y': 0},
+            'object': new PIXI.Texture.fromImage('static/wall2.jpg')
         }
     });
     fons.setTilingSprite();
