@@ -1,0 +1,50 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 29.06.2015, 9:56:32
+    Author     : sli-pro
+*/
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    overflow: auto;
+    }
+    ul.menu {
+        color: white;
+	list-style: none;
+	padding: 0;
+	border: none;
+	margin: 0.1em auto;
+    }
+    ul.menu li {
+        transition: .4s ease-in-out;
+        -moz-transition: .4s ease-in-out;
+        -webkit-transition: .4s ease-in-out;
+        -ms-transition: .4s ease-in-out;
+        -o-transition: .4s ease-in-out;
+        display: inline-block;
+	background: rgb(150,60,25);
+        opacity: 0.6;
+	padding: 0.3em;
+        border: none;
+        -webkit-border-radius: 10%;
+        -moz-border-radius: 10%;
+        border-radius: 10%;
+        -webkit-box-shadow: 0 0.2em 0.5em grey;
+        -moz-box-shadow: 0 0.2em 0.5em grey;
+        box-shadow: 0 0.2em 0.5em grey;
+    }
+    ul.menu li:hover {
+        cursor: pointer;
+        opacity: 1;
+        -webkit-border-radius: 0%;
+        -moz-border-radius: 0%;
+        border-radius: 0%;
+        -webkit-box-shadow: 0 0 0.5em 0.1em maroon;
+        -moz-box-shadow: 0 0 0.5em 0.1em maroon;
+        box-shadow: 0 0 0.5em 0.1em maroon;
+    }
